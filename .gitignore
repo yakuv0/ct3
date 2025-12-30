@@ -48,3 +48,5 @@ yosemite.patch
 player/lua/o-osc.lua
 player/lua/o-stats.lua
 __pycache__
+.github
+.vscode
