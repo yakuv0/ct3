@@ -170,7 +170,7 @@
 #define MP_KEY_GAMEPAD_RIGHT_STICK_DOWN   (MP_KEY_GAMEPAD+22)
 #define MP_KEY_GAMEPAD_RIGHT_STICK_LEFT   (MP_KEY_GAMEPAD+23)
 #define MP_KEY_GAMEPAD_RIGHT_STICK_RIGHT  (MP_KEY_GAMEPAD+24)
-
+#define MP_KEY_GAMEPAD_TOUCHPAD           (MP_KEY_GAMEPAD+25)
 // Reserved area. Can be used for keys that have no explicit names assigned,
 // but should be mappable by the user anyway.
 #define MP_KEY_UNKNOWN_RESERVED_START (MP_KEY_BASE+0x10000)

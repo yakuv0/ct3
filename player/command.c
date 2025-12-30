@@ -17,6 +17,8 @@
 
 #include <float.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
 #include <inttypes.h>
 #include <unistd.h>
 #include <string.h>
@@ -77,6 +79,12 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
+#ifdef __APPLE__
+#include <mach-o/dyld.h> // For _NSGetExecutablePath on macOS
+#endif
+
+// Declare the function prototype at the top of the file
+const char *get_executable_path(void);
 
 struct command_ctx {
     // All properties, terminated with a {0} item.
@@ -174,6 +182,7 @@ bool mp_hook_test_completion(struct MPContext *mpctx, char *type)
     }
     return true;
 }
+
 
 static int invoke_hook_handler(struct MPContext *mpctx, struct hook_handler *h)
 {
@@ -469,6 +478,66 @@ static int mp_property_filename(void *ctx, struct m_property *prop,
     int r = m_property_strdup_ro(action, arg, f);
     talloc_free(filename);
     return r;
+}
+const char *get_executable_path(void) {
+    static char path[PATH_MAX] = {0};
+
+#ifdef _WIN32
+    GetModuleFileNameA(NULL, path, sizeof(path));
+    if (path[0] == '\0') {
+        return NULL;
+    }
+#elif defined(__APPLE__)
+    uint32_t size = sizeof(path);
+    if (_NSGetExecutablePath(path, &size) != 0) {
+        return NULL;
+    }
+
+    // Resolve relative path to absolute path
+    char absolute_path[PATH_MAX];
+    if (realpath(path, absolute_path) == NULL) {
+        return NULL;
+    }
+    strncpy(path, absolute_path, sizeof(path) - 1);
+#else
+    // Linux/Unix
+    if (path[0] == '\0') {
+        ssize_t len = readlink("/proc/self/exe", path, sizeof(path) - 1);
+        if (len != -1) {
+            path[len] = '\0';
+        } else {
+            return NULL;
+        }
+    }
+#endif
+
+    if (path[0] == '\0') {
+        return NULL;
+    }
+
+    return path;
+}
+static int mp_property_executable_path(void *ctx, struct m_property *prop,
+                                       int action, void *arg)
+{
+    switch (action) {
+    case M_PROPERTY_GET: {
+        const char *path = get_executable_path();
+        if (!path)
+            return M_PROPERTY_ERROR;
+
+        // mpv expects ownership → allocate with talloc
+        *(char **)arg = talloc_strdup(NULL, path);
+        return M_PROPERTY_OK;
+    }
+
+    case M_PROPERTY_GET_TYPE:
+        *(struct m_option *)arg =
+            (struct m_option){ .type = CONF_TYPE_STRING };
+        return M_PROPERTY_OK;
+    }
+
+    return M_PROPERTY_NOT_IMPLEMENTED;
 }
 
 static int mp_property_stream_open_filename(void *ctx, struct m_property *prop,
@@ -3727,6 +3796,7 @@ static const struct m_property mp_properties_base[] = {
     {"display-hidpi-scale", mp_property_hidpi_scale},
 
     {"working-directory", mp_property_cwd},
+    {"executable-path", mp_property_executable_path},  // Register new property without MPF_CONST or 0
 
     {"protocol-list", mp_property_protocols},
     {"decoder-list", mp_property_decoders},

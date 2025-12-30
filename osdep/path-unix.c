@@ -34,14 +34,14 @@ static void path_init(void)
     char *xdg_dir = getenv("XDG_CONFIG_HOME");
 
     if (xdg_dir && xdg_dir[0]) {
-        snprintf(mpv_home, sizeof(mpv_home), "%s/mpv", xdg_dir);
+        snprintf(mpv_home, sizeof(mpv_home), "%s/ct3", xdg_dir);
     } else if (home && home[0]) {
-        snprintf(mpv_home, sizeof(mpv_home), "%s/.config/mpv", home);
+        snprintf(mpv_home, sizeof(mpv_home), "%s/.config/ct3", home);
     }
 
     // Maintain compatibility with old ~/.mpv
     if (home && home[0])
-        snprintf(old_home, sizeof(old_home), "%s/.mpv", home);
+        snprintf(old_home, sizeof(old_home), "%s/.ct3", home);
 
     // If the old ~/.mpv exists, and the XDG config dir doesn't, use the old
     // config dir only.

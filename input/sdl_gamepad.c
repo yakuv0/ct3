@@ -54,6 +54,8 @@ static const int button_map[][2] = {
     { SDL_CONTROLLER_BUTTON_DPAD_DOWN, MP_KEY_GAMEPAD_DPAD_DOWN },
     { SDL_CONTROLLER_BUTTON_DPAD_LEFT, MP_KEY_GAMEPAD_DPAD_LEFT },
     { SDL_CONTROLLER_BUTTON_DPAD_RIGHT, MP_KEY_GAMEPAD_DPAD_RIGHT },
+    { SDL_CONTROLLER_BUTTON_TOUCHPAD, MP_KEY_GAMEPAD_TOUCHPAD },
+
 };
 
 static const int analog_map[][5] = {
@@ -86,7 +88,7 @@ static const int analog_map[][5] = {
         MP_KEY_GAMEPAD_RIGHT_STICK_DOWN | MP_KEY_STATE_UP,
         MP_KEY_GAMEPAD_RIGHT_STICK_DOWN | MP_KEY_STATE_DOWN },
 
-    { SDL_CONTROLLER_AXIS_TRIGGERLEFT,
+    /*{ SDL_CONTROLLER_AXIS_TRIGGERLEFT,
         INVALID_KEY,
         INVALID_KEY,
         MP_KEY_GAMEPAD_LEFT_TRIGGER | MP_KEY_STATE_UP,
@@ -96,8 +98,10 @@ static const int analog_map[][5] = {
         INVALID_KEY,
         INVALID_KEY,
         MP_KEY_GAMEPAD_RIGHT_TRIGGER | MP_KEY_STATE_UP,
-        MP_KEY_GAMEPAD_RIGHT_TRIGGER | MP_KEY_STATE_DOWN },
+        MP_KEY_GAMEPAD_RIGHT_TRIGGER | MP_KEY_STATE_DOWN }*/
 };
+
+  
 
 static int lookup_button_mp_key(int sdl_key)
 {
@@ -138,7 +142,9 @@ static int lookup_analog_mp_key(int sdl_key, int16_t value)
 
     for (int i = 0; i < MP_ARRAY_SIZE(analog_map); i++) {
         if (analog_map[i][0] == sdl_key) {
-            return analog_map[i][state];
+            //if (key != INVALID_KEY && key != MP_KEY_GAMEPAD_RIGHT_TRIGGER && key != MP_KEY_GAMEPAD_LEFT_TRIGGER) {
+                return analog_map[i][state];
+            //}
         }
     }
 
@@ -226,7 +232,17 @@ static void read_gamepad_thread(struct mp_input_src *src, void *param)
 
     SDL_Event ev;
 
+
     while (SDL_WaitEvent(&ev) != 0) {
+        Uint8 is_pressed_L1 = SDL_GameControllerGetButton(p->controller,
+						   SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+        Uint8 is_pressed_R1 = SDL_GameControllerGetButton(p->controller,
+						   SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+        Uint8 is_pressed_L2 = SDL_GameControllerGetAxis(p->controller,
+						   SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+        Uint8 is_pressed_R2 = SDL_GameControllerGetAxis(p->controller,
+						   SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+
         if (ev.type == gamepad_cancel_wakeup) {
             break;
         }
@@ -241,23 +257,61 @@ static void read_gamepad_thread(struct mp_input_src *src, void *param)
                 continue;
             }
             case SDL_CONTROLLERBUTTONDOWN: {
-                const int key = lookup_button_mp_key(ev.cbutton.button);
-                if (key != INVALID_KEY) {
+                int key = lookup_button_mp_key(ev.cbutton.button);
+                if (key != INVALID_KEY && key != MP_KEY_GAMEPAD_LEFT_SHOULDER && key != MP_KEY_GAMEPAD_RIGHT_SHOULDER) {
+                    if (is_pressed_L1){
+                        key |= MP_KEY_MODIFIER_ALT;
+                    }
+                    if (is_pressed_R1){
+                        key |= MP_KEY_MODIFIER_SHIFT;
+                    }
+                    if (is_pressed_L2){
+                        key |= MP_KEY_MODIFIER_CTRL;
+                    }
+                    if (is_pressed_R2){
+                        key |= MP_KEY_MODIFIER_META;
+                    }
+                    //printf("\n%d\n", key);
                     mp_input_put_key(src->input_ctx, key | MP_KEY_STATE_DOWN);
                 }
                 continue;
             }
             case SDL_CONTROLLERBUTTONUP: {
-                const int key = lookup_button_mp_key(ev.cbutton.button);
-                if (key != INVALID_KEY) {
+                int key = lookup_button_mp_key(ev.cbutton.button);
+                if (key != INVALID_KEY && key != MP_KEY_GAMEPAD_LEFT_SHOULDER && key != MP_KEY_GAMEPAD_RIGHT_SHOULDER) {
+                    if (is_pressed_L1){
+                        key |= MP_KEY_MODIFIER_ALT;
+                    }
+                    if (is_pressed_R1){
+                        key |= MP_KEY_MODIFIER_SHIFT;
+                    }
+                    if (is_pressed_L2){
+                        key |= MP_KEY_MODIFIER_CTRL;
+                    }
+                    if (is_pressed_R2){
+                        key |= MP_KEY_MODIFIER_META;
+                    }
                     mp_input_put_key(src->input_ctx, key | MP_KEY_STATE_UP);
                 }
                 continue;
             }
             case SDL_CONTROLLERAXISMOTION: {
-                const int key =
+                int key =
                     lookup_analog_mp_key(ev.caxis.axis, ev.caxis.value);
-                if (key != INVALID_KEY) {
+                if (is_pressed_L1){
+                    key |= MP_KEY_MODIFIER_ALT;
+                }
+                if (is_pressed_R1){
+                    key |= MP_KEY_MODIFIER_SHIFT;
+                }
+                if (is_pressed_L2){
+                    key |= MP_KEY_MODIFIER_CTRL;
+                }
+                if (is_pressed_R2){
+                    key |= MP_KEY_MODIFIER_META;
+                }
+                //printf("%d", key);
+                if (key != INVALID_KEY && ev.caxis.axis != SDL_CONTROLLER_AXIS_TRIGGERRIGHT && ev.caxis.axis != SDL_CONTROLLER_AXIS_TRIGGERLEFT) {
                     mp_input_put_key(src->input_ctx, key);
                 }
                 continue;

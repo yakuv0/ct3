@@ -13,7 +13,7 @@ from waftools.checks.custom import *
 c_preproc.go_absolute=True # enable system folders
 c_preproc.standard_includes.append('/usr/local/include')
 
-APPNAME = 'mpv'
+APPNAME = 'ct3'
 
 """
 Dependency identifiers (for win32 vs. Unix):
@@ -906,7 +906,7 @@ standalone_features = [
 ]
 
 _INSTALL_DIRS_LIST = [
-    ('confdir', '${SYSCONFDIR}/mpv',  'configuration files'),
+    ('confdir', '${SYSCONFDIR}/ct3',  'configuration files'),
     ('zshdir',  '${DATADIR}/zsh/site-functions', 'zsh completion functions'),
     ('confloaddir', '${CONFDIR}', 'configuration files load directory'),
     ('bashdir', '${DATADIR}/bash-completion/completions', 'bash completion functions'),

@@ -19,8 +19,6 @@ def is_user_lib(objfile, libname):
            not "libSystem." in libname and \
            not "libc." in libname and \
            not "libgcc." in libname and \
-           not os.path.basename(libname) == 'Python' and \
-           not os.path.basename(objfile) in libname and \
            not "libswift" in libname
 
 def otool(objfile):
@@ -54,7 +52,7 @@ def install_name_tool_delete_rpath(rpath, binary):
 def libraries(objfile, result = dict()):
     libs_list       = otool(objfile)
     result[objfile] = libs_list
-
+    print(objfile)
     for lib in libs_list:
         if lib not in result:
             libraries(lib, result)

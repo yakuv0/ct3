@@ -673,6 +673,7 @@ mp.get_script_file = function() { return mp.script_file };
 mp.get_script_directory = function() { return mp.script_path };
 mp.get_time = function() { return mp.get_time_ms() / 1000 };
 mp.utils.getcwd = function() { return mp.get_property("working-directory") };
+mp.utils.getexecutablepath = function() { return mp.get_property("executable-path") }
 mp.utils.getpid = function() { return mp.get_property_number("pid") }
 mp.utils.get_user_path =
     function(p) { return mp.command_native(["expand-path", String(p)]) };

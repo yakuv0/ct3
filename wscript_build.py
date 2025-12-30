@@ -53,8 +53,8 @@ def build(ctx):
 
     ctx(
         features = "file2string",
-        source = "TOOLS/osxbundle/mpv.app/Contents/Resources/icon.icns",
-        target = "generated/TOOLS/osxbundle/mpv.app/Contents/Resources/icon.icns.inc",
+        source = "TOOLS/osxbundle/ct3.app/Contents/Resources/ct3.icns",
+        target = "generated/TOOLS/osxbundle/ct3.app/Contents/Resources/ct3.icns.inc",
     )
 
     icons = [16, 32, 64, 128]
@@ -637,7 +637,7 @@ def build(ctx):
 
     if ctx.dependency_satisfied('cplayer'):
         ctx(
-            target       = "mpv",
+            target       = "ct3",
             source       = main_fn_c,
             use          = ctx.dependencies_use() + ['objects'],
             add_objects  = additional_objects,
@@ -653,7 +653,7 @@ def build(ctx):
 
         if ctx.env.DEST_OS == 'win32':
             wrapctx = ctx(
-                target       = "mpv",
+                target       = "ct3",
                 source       = ['osdep/win32-console-wrapper.c'],
                 features     = "c cprogram",
                 install_path = ctx.env.BINDIR
@@ -683,7 +683,7 @@ def build(ctx):
                 features += "cstlib"
 
             libmpv_kwargs = {
-                "target": "mpv",
+                "target": "ct3",
                 "source":   ctx.filtered_sources(sources),
                 "use":      ctx.dependencies_use(),
                 "add_objects": additional_objects,

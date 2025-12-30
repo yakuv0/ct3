@@ -72,24 +72,24 @@ local osc_param = { -- calculated by osc_init()
 }
 
 local osc_styles = {
-    bigButtons = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs50\\fnmpv-osd-symbols}",
-    smallButtonsL = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs19\\fnmpv-osd-symbols}",
+    bigButtons = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs50\\fn" .. mp.get_property("options/osd-font") .. "}",
+    smallButtonsL = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs19\\fn" .. mp.get_property("options/osd-font") .. "}",
     smallButtonsLlabel = "{\\fscx105\\fscy105\\fn" .. mp.get_property("options/osd-font") .. "}",
-    smallButtonsR = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs30\\fnmpv-osd-symbols}",
-    topButtons = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs12\\fnmpv-osd-symbols}",
+    smallButtonsR = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs30\\fn" .. mp.get_property("options/osd-font") .. "}",
+    topButtons = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs12\\fn" .. mp.get_property("options/osd-font") .. "}",
 
     elementDown = "{\\1c&H999999}",
     timecodes = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs20}",
     vidtitle = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs12\\q2}",
     box = "{\\rDefault\\blur0\\bord1\\1c&H000000\\3c&HFFFFFF}",
 
-    topButtonsBar = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs18\\fnmpv-osd-symbols}",
-    smallButtonsBar = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs28\\fnmpv-osd-symbols}",
+    topButtonsBar = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs18\\fn" .. mp.get_property("options/osd-font") .. "}",
+    smallButtonsBar = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs28\\fn" .. mp.get_property("options/osd-font") .. "}",
     timecodesBar = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs27}",
     timePosBar = "{\\blur0\\bord".. user_opts.tooltipborder .."\\1c&HFFFFFF\\3c&H000000\\fs30}",
     vidtitleBar = "{\\blur0\\bord0\\1c&HFFFFFF\\3c&HFFFFFF\\fs18\\q2}",
 
-    wcButtons = "{\\1c&HFFFFFF\\fs24\\fnmpv-osd-symbols}",
+    wcButtons = "{\\1c&HFFFFFF\\fs24\\fn" .. mp.get_property("options/osd-font") .. "}",
     wcTitle = "{\\1c&HFFFFFF\\fs24\\q2}",
     wcBar = "{\\1c&H000000}",
 }
@@ -1102,9 +1102,9 @@ function window_controls(topbar)
     -- and libass will complain that they are not present in the
     -- default font, even if another font with them is available.
 
-    -- Close: 🗙
+    -- Close: 🗙 
     ne = new_element("close", "button")
-    ne.content = "\238\132\149"
+    ne.content = "✕"
     ne.eventresponder["mbtn_left_up"] =
         function () mp.commandv("quit") end
     lo = add_layout("close")
@@ -1113,7 +1113,7 @@ function window_controls(topbar)
 
     -- Minimize: 🗕
     ne = new_element("minimize", "button")
-    ne.content = "\238\132\146"
+    ne.content = "⚊"
     ne.eventresponder["mbtn_left_up"] =
         function () mp.commandv("cycle", "window-minimized") end
     lo = add_layout("minimize")
@@ -1123,9 +1123,9 @@ function window_controls(topbar)
     -- Maximize: 🗖 /🗗
     ne = new_element("maximize", "button")
     if state.maximized or state.fullscreen then
-        ne.content = "\238\132\148"
+        ne.content = "⧉"
     else
-        ne.content = "\238\132\147"
+        ne.content = "⧠"
     end
     ne.eventresponder["mbtn_left_up"] =
         function ()
@@ -1314,15 +1314,14 @@ layouts["box"] = function ()
         {x = posX - pos_offsetX, y = bigbtnrowY, an = 7, w = 70, h = 18}
     lo.style = osc_styles.smallButtonsL
 
-    lo = add_layout("tog_fs")
-    lo.geometry =
-        {x = posX+pos_offsetX - 25, y = bigbtnrowY, an = 4, w = 25, h = 25}
-    lo.style = osc_styles.smallButtonsR
+    --lo = add_layout("tog_fs")
+    --lo.geometry =
+    --    {x = posX+pos_offsetX - 25, y = bigbtnrowY, an = 4, w = 25, h = 25}
+    --lo.style = osc_styles.smallButtonsR
 
     lo = add_layout("volume")
     lo.geometry =
-        {x = posX+pos_offsetX - (25 * 2) - osc_geo.p,
-         y = bigbtnrowY, an = 4, w = 25, h = 25}
+        {x = posX+pos_offsetX - 25, y = bigbtnrowY, an = 4, w = 25, h = 25}
     lo.style = osc_styles.smallButtonsR
 
     --
@@ -1610,14 +1609,15 @@ function bar_layout(direction)
     local sb_l = geo.x + padX
 
     -- Fullscreen button
-    geo = { x = osc_geo.x + osc_geo.w - buttonW - padX - padwc_r, y = geo.y, an = 4,
-            w = buttonW, h = geo.h }
-    lo = add_layout("tog_fs")
-    lo.geometry = geo
-    lo.style = osc_styles.smallButtonsBar
+    --geo = { x = osc_geo.x + osc_geo.w - buttonW - padX - padwc_r, y = geo.y, an = 4,
+    --        w = buttonW, h = geo.h }
+    --lo = add_layout("tog_fs")
+    --lo.geometry = geo
+    --lo.style = osc_styles.smallButtonsBar
 
     -- Volume
-    geo = { x = geo.x - geo.w - padX, y = geo.y, an = geo.an, w = geo.w, h = geo.h }
+    geo = { x = osc_geo.x + osc_geo.w - buttonW - padX - padwc_r, y = geo.y, an = 4,
+    w = buttonW, h = geo.h }
     lo = add_layout("volume")
     lo.geometry = geo
     lo.style = osc_styles.smallButtonsBar
@@ -1628,14 +1628,14 @@ function bar_layout(direction)
     lo.geometry = geo
     lo.style = osc_styles.smallButtonsBar
 
-    geo = { x = geo.x - geo.w - padX, y = geo.y, an = geo.an, w = geo.w, h = geo.h }
+    geo = { x = geo.x - geo.w - padX , y = geo.y, an = geo.an, w = geo.w, h = geo.h }
     lo = add_layout("cy_audio")
     lo.geometry = geo
     lo.style = osc_styles.smallButtonsBar
 
 
     -- Right timecode
-    geo = { x = geo.x - padX - tcW - 10, y = geo.y, an = geo.an,
+    geo = { x = geo.x - padX - tcW - 30, y = geo.y, an = geo.an,
             w = tcW, h = geo.h }
     lo = add_layout("tc_right")
     lo.geometry = geo
@@ -1813,7 +1813,7 @@ function osc_init()
     -- prev
     ne = new_element("pl_prev", "button")
 
-    ne.content = "\238\132\144"
+    ne.content = "◀"
     ne.enabled = (pl_pos > 1) or (loop ~= "no")
     ne.eventresponder["mbtn_left_up"] =
         function ()
@@ -1830,7 +1830,7 @@ function osc_init()
     --next
     ne = new_element("pl_next", "button")
 
-    ne.content = "\238\132\129"
+    ne.content = "▶"
     ne.enabled = (have_pl and (pl_pos < pl_count)) or (loop ~= "no")
     ne.eventresponder["mbtn_left_up"] =
         function ()
@@ -1850,13 +1850,13 @@ function osc_init()
     --playpause
     ne = new_element("playpause", "button")
 
-    ne.content = function ()
-        if mp.get_property("pause") == "yes" then
-            return ("\238\132\129")
-        else
-            return ("\238\128\130")
-        end
-    end
+    ne.content = "⏯" --function ()
+        --if mp.get_property("pause") == "yes" then
+        --    return ("⏸")
+        --else
+        --    return ("⏵")
+        --end
+    --end
     ne.eventresponder["mbtn_left_up"] =
         function () mp.commandv("cycle", "pause") end
 
@@ -1864,7 +1864,7 @@ function osc_init()
     ne = new_element("skipback", "button")
 
     ne.softrepeat = true
-    ne.content = "\238\128\132"
+    ne.content = "⏪"
     ne.eventresponder["mbtn_left_down"] =
         function () mp.commandv("seek", -5, "relative", "keyframes") end
     ne.eventresponder["shift+mbtn_left_down"] =
@@ -1876,7 +1876,7 @@ function osc_init()
     ne = new_element("skipfrwd", "button")
 
     ne.softrepeat = true
-    ne.content = "\238\128\133"
+    ne.content = "⏩"
     ne.eventresponder["mbtn_left_down"] =
         function () mp.commandv("seek", 10, "relative", "keyframes") end
     ne.eventresponder["shift+mbtn_left_down"] =
@@ -1888,7 +1888,7 @@ function osc_init()
     ne = new_element("ch_prev", "button")
 
     ne.enabled = have_ch
-    ne.content = "\238\132\132"
+    ne.content = "⏮"
     ne.eventresponder["mbtn_left_up"] =
         function ()
             mp.commandv("add", "chapter", -1)
@@ -1905,7 +1905,7 @@ function osc_init()
     ne = new_element("ch_next", "button")
 
     ne.enabled = have_ch
-    ne.content = "\238\132\133"
+    ne.content = "⏭"
     ne.eventresponder["mbtn_left_up"] =
         function ()
             mp.commandv("add", "chapter", 1)
@@ -1930,7 +1930,7 @@ function osc_init()
         if not (get_track("audio") == 0) then
             aid = get_track("audio")
         end
-        return ("\238\132\134" .. osc_styles.smallButtonsLlabel
+        return ("♫" .. osc_styles.smallButtonsLlabel
             .. " " .. aid .. "/" .. #tracks_osc.audio)
     end
     ne.eventresponder["mbtn_left_up"] =
@@ -1949,7 +1949,7 @@ function osc_init()
         if not (get_track("sub") == 0) then
             sid = get_track("sub")
         end
-        return ("\238\132\135" .. osc_styles.smallButtonsLlabel
+        return ("؃" .. osc_styles.smallButtonsLlabel
             .. " " .. sid .. "/" .. #tracks_osc.sub)
     end
     ne.eventresponder["mbtn_left_up"] =
@@ -1960,16 +1960,16 @@ function osc_init()
         function () show_message(get_tracklist("sub"), 2) end
 
     --tog_fs
-    ne = new_element("tog_fs", "button")
-    ne.content = function ()
-        if (state.fullscreen) then
-            return ("\238\132\137")
-        else
-            return ("\238\132\136")
-        end
-    end
-    ne.eventresponder["mbtn_left_up"] =
-        function () mp.commandv("cycle", "fullscreen") end
+    --ne = new_element("tog_fs", "button")
+    --ne.content = function ()
+    --    if (state.fullscreen) then
+    --        return ("⎚")
+    --    else
+    --        return ("⎚")
+    --    end
+    --end
+    --ne.eventresponder["mbtn_left_up"] =
+    --    function () mp.commandv("cycle", "fullscreen") end
 
     --seekbar
     ne = new_element("seekbar", "slider")
@@ -2117,10 +2117,10 @@ function osc_init()
     ne.content = function()
         local volume = mp.get_property_number("volume", 0)
         local mute = mp.get_property_native("mute")
-        local volicon = {"\238\132\139", "\238\132\140",
-                         "\238\132\141", "\238\132\142"}
+        local volicon = {"꩝", "꩞","꩞", "꩟"}
+        --local volicon = {"🕨", "🕩","🕩", "🕪"}
         if volume == 0 or mute then
-            return "\238\132\138"
+            return "᠊"
         else
             return volicon[math.min(4,math.ceil(volume / (100/3)))]
         end
@@ -2262,7 +2262,7 @@ end
 -- called a small time ago.
 function request_tick()
     if state.tick_timer == nil then
-        state.tick_timer = mp.add_timeout(0, tick)
+        state.tick_timer = mp.add_timeout(3000, tick)
     end
 
     if not state.tick_timer:is_enabled() then
@@ -2555,13 +2555,13 @@ end
 
 local logo_lines = {
     -- White border
-    "{\\c&HE5E5E5&\\p6}m 895 10 b 401 10 0 410 0 905 0 1399 401 1800 895 1800 1390 1800 1790 1399 1790 905 1790 410 1390 10 895 10 {\\p0}",
+    --"{\\c&HE5E5E5&\\p6}m 895 10 b 401 10 0 410 0 905 0 1399 401 1800 895 1800 1390 1800 1790 1399 1790 905 1790 410 1390 10 895 10 {\\p0}",
     -- Purple fill
-    "{\\c&H682167&\\p6}m 925 42 b 463 42 87 418 87 880 87 1343 463 1718 925 1718 1388 1718 1763 1343 1763 880 1763 418 1388 42 925 42{\\p0}",
+    --"{\\c&H682167&\\p6}m 925 42 b 463 42 87 418 87 880 87 1343 463 1718 925 1718 1388 1718 1763 1343 1763 880 1763 418 1388 42 925 42{\\p0}",
     -- Darker fill
-    "{\\c&H430142&\\p6}m 1605 828 b 1605 1175 1324 1456 977 1456 631 1456 349 1175 349 828 349 482 631 200 977 200 1324 200 1605 482 1605 828{\\p0}",
+    --"{\\c&H430142&\\p6}m 1605 828 b 1605 1175 1324 1456 977 1456 631 1456 349 1175 349 828 349 482 631 200 977 200 1324 200 1605 482 1605 828{\\p0}",
     -- White fill
-    "{\\c&HDDDBDD&\\p6}m 1296 910 b 1296 1131 1117 1310 897 1310 676 1310 497 1131 497 910 497 689 676 511 897 511 1117 511 1296 689 1296 910{\\p0}",
+    --"{\\c&HDDDBDD&\\p6}m 1296 910 b 1296 1131 1117 1310 897 1310 676 1310 497 1131 497 910 497 689 676 511 897 511 1117 511 1296 689 1296 910{\\p0}",
     -- Triangle
     "{\\c&H691F69&\\p6}m 762 1113 l 762 708 b 881 776 1000 843 1119 911 1000 978 881 1046 762 1113{\\p0}",
 }
@@ -2618,8 +2618,9 @@ function tick()
         if user_opts.idlescreen then
             ass:new_event()
             ass:pos(display_w / 2, icon_y + 65)
+            --ass:pos(display_w / 2, 50)
             ass:an(8)
-            ass:append("Drop files or URLs to play here.")
+            ass:append("Drop files or URLs")
         end
         set_osd(display_w, display_h, ass.text)
 
@@ -2829,9 +2830,9 @@ end
 -- the modes only affect internal variables and not stored on its own.
 function visibility_mode(mode, no_osd)
     if mode == "cycle" then
-        if not state.enabled then
-            mode = "auto"
-        elseif user_opts.visibility ~= "always" then
+        --if not state.enabled then
+        --    mode = "auto"
+        if user_opts.visibility ~= "always" then
             mode = "always"
         else
             mode = "never"

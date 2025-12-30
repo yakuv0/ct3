@@ -139,7 +139,7 @@ static const struct key_name key_names[] = {
   { MP_KEY_GAMEPAD_RIGHT_STICK_DOWN, "GAMEPAD_RIGHT_STICK_DOWN" },
   { MP_KEY_GAMEPAD_RIGHT_STICK_LEFT, "GAMEPAD_RIGHT_STICK_LEFT" },
   { MP_KEY_GAMEPAD_RIGHT_STICK_RIGHT, "GAMEPAD_RIGHT_STICK_RIGHT" },
-
+  { MP_KEY_GAMEPAD_TOUCHPAD, "GAMEPAD_TOUCHPAD" },
   { MP_KEY_POWER,       "POWER" },
   { MP_KEY_MENU,        "MENU" },
   { MP_KEY_PLAY,        "PLAY" },
@@ -214,11 +214,20 @@ static const struct key_name key_names[] = {
 
 static const struct key_name modifier_names[] = {
     { MP_KEY_MODIFIER_SHIFT, "Shift" },
-    { MP_KEY_MODIFIER_CTRL,  "Ctrl" },
-    { MP_KEY_MODIFIER_ALT,   "Alt" },
+    { MP_KEY_MODIFIER_SHIFT, "R1" },
+
     { MP_KEY_MODIFIER_META,  "Meta" },
-    { 0 }
+    { MP_KEY_MODIFIER_META,  "R2" },
+
+    { MP_KEY_MODIFIER_ALT,   "Alt" },
+    { MP_KEY_MODIFIER_ALT,   "L1" },
+
+    { MP_KEY_MODIFIER_CTRL,  "Ctrl" },
+    { MP_KEY_MODIFIER_CTRL,  "L2" },
+
+    { 0, NULL }
 };
+
 
 int mp_input_get_key_from_name(const char *name)
 {

@@ -38,3 +38,13 @@
 /Makefile
 
 /subprojects
+.DS_Store
+/ct3.app
+d3-web
+d4-web
+web
+fixbundle.sh
+yosemite.patch
+player/lua/o-osc.lua
+player/lua/o-stats.lua
+__pycache__

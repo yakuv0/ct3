@@ -765,7 +765,10 @@ end
 function mp_utils.getcwd()
     return mp.get_property("working-directory")
 end
-
+-- New function for executable-path
+function mp_utils.getexecutablepath()
+    return mp.get_property("executable-path")
+end
 function mp_utils.getpid()
     return mp.get_property_number("pid")
 end

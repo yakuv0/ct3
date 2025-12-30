@@ -81,6 +81,8 @@ def check_lua(ctx, dependency_identifier):
         ( '51deb',  'lua5.1 >= 5.1.0'), # debian
         ( 'lua-5.1','lua-5.1 >= 5.1.0'),
         ( '51fbsd', 'lua-5.1 >= 5.1.0'), # FreeBSD
+        ( 'lua', 'lua >= 5.2.0 lua < 5.4.0'),  
+
     ]
 
     if ctx.options.LUA_VER:

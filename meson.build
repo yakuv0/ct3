@@ -559,7 +559,7 @@ subdir(join_paths('generated', 'etc'))
 subdir(join_paths('generated', 'sub'))
 
 if darwin
-    subdir(join_paths('generated', 'TOOLS', 'osxbundle', 'mpv.app', 'Contents', 'Resources'))
+    subdir(join_paths('generated', 'TOOLS', 'osxbundle', 'ct3.app', 'Contents', 'Resources'))
 endif
 
 
