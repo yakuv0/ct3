@@ -50,3 +50,4 @@ player/lua/o-stats.lua
 __pycache__
 .github
 .vscode
+site

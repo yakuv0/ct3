@@ -19,7 +19,7 @@ performance is an intellectual procedure in (ai-audio image) processing through 
 
 ### Remote devices
 
-- [x] [gamecontroller](/en/tool/ct3/prf/ds4)
+- [x] [gamecontroller](https://www.mqr.link/#/en/tool/ct3/prf/ds4)
 - [ ] magic keyboard
 - [ ] midi
 
