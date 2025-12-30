@@ -14,6 +14,9 @@ a bundled build of [mpv](https://github.com/mpv-player/mpv) with sdl enabled to 
 - [playlistmanager](https://github.com/jonniek/mpv-playlistmanager)
 - a merger of [slicing](https://github.com/Kagami/mpv_slicing) and [encode](https://github.com/occivink/mpv-scripts/blob/master/scripts/encode.lua)
 
+## Download 
+mac osx bundle [ct3](https://www.mqr.link/mat/pkg/ct3.app.zip)
+
 ## Control
 performance is an intellectual procedure in (ai-audio image) processing through mechanisms varies in control and connectivity.
 
