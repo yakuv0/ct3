@@ -73,7 +73,7 @@ def main():
     print("> copying binary")
     copy_binary(binary_name)
     print("> create bundle symlink")
-    create_bundle_symlink(binary_name, "mpv-bundle")
+    #create_bundle_symlink(binary_name, "mpv-bundle")
     print("> generating Info.plist")
     apply_plist_template(target_plist(binary_name), version)
 

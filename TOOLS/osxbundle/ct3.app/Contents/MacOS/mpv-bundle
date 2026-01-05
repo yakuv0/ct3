@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+set -x
+
+# Resolve bundle paths safely (symlinks included)
+APPDIR="$(cd "$(dirname "$0")/.." && pwd)"
+MPV_BIN="$APPDIR/MacOS/ct3"
+RESOURCES="$APPDIR/Resources"
+
+# User config (optional, overrides bundled defaults)
+#USER_CONFIG="$HOME/.config/mpv"
+
+ARGS=()
+
+# --- Config handling ---
+# Load bundled config FIRST, then user config overrides
+ARGS+=("--config-dir=$RESOURCES")
+
+#if [ -d "$USER_CONFIG" ]; then
+#  ARGS+=("--config-dir=$USER_CONFIG")
+#fi
+
+# --- Keep mpv alive when launched with no target ---
+#ARGS+=("--idle=yes")
+#ARGS+=("--force-window=yes")
+
+# --- MediaRemote stability ---
+#ARGS+=("--player-operation-mode=pseudo-gui")
+
+# --- Sensible macOS defaults ---
+#ARGS+=("--input-app-events=yes")
+#ARGS+=("--no-terminal")
+
+# --- Forward everything LaunchServices gives us ---
+# (files, URLs, Apple Events)
+exec "$MPV_BIN" "${ARGS[@]}" "$@"
