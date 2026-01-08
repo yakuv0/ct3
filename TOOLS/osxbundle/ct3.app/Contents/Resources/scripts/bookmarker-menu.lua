@@ -12,7 +12,7 @@ local closeAfterReplace = true
 -- Whether to ask for confirmation to replace a bookmark (Uses the Typer for confirmation)
 local confirmReplace = false
 -- Whether to ask for confirmation to delete a bookmark (Uses the Typer for confirmation)
-local confirmDelete = true
+local confirmDelete = false
 -- The rate (in seconds) at which the bookmarker needs to refresh its interface; lower is more frequent
 local rate = 1.5
 -- The filename for the bookmarks file

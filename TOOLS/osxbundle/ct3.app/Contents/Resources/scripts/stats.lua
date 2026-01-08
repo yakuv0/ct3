@@ -52,7 +52,7 @@ local o = {
     -- Text style
     font = "unifont",
     font_mono = "unifont",   -- monospaced digits are sufficient
-    font_size = 8,
+    font_size = 6,
     font_color = "FFFFFF",
     border_size = 0.5,
     border_color = "262626",
@@ -576,7 +576,7 @@ local function get_kbinfo_lines(width)
         if bind.subject ~= subject then  -- new subject (title)
             subject = bind.subject
             append(info_lines, "", {})
-            append(info_lines, "", { prefix = spre .. subject .. spost })
+            append(info_lines, "", { prefix = subject .. spost })
         end
         if bind.comment then
             --bind.cmd = bind.cmd .. "  # " .. bind.comment
@@ -1302,7 +1302,7 @@ tot = tablelength(pages)
 function cycle()
     --print('______stats' .. active)
     if active == nil then
-        --print('stats', active)
+        print('stats', active)
         process_key_binding(false) 
         active = 'true'
         print('stats' .. active)

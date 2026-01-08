@@ -51,3 +51,4 @@ __pycache__
 .github
 .vscode
 site
+TOOLS/osxbundle/ct3.app/Contents/Resources/draft_input.conf

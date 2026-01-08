@@ -1564,23 +1564,23 @@ state.keybinds = {
     {'Shift+s',           'select_item',  toggle_selection},
     {'Alt+s',      'select_all',   select_all},
     {'GAMEPAD_START',            'play-controller',         function() open_file('replace', false) end},
-    {'Meta+GAMEPAD_START',       'play_append-controller',  function() open_file('append-play', false) end},
+    {'R2+GAMEPAD_START',       'play_append-controller',  function() open_file('append-play', false) end},
    -- {'Alt+ENTER',              'play_autoload',function() open_file('replace', true) end},
     {'GAMEPAD_BACK',                    'close',        escape},
     {'GAMEPAD_DPAD_RIGHT',       'down_dir-controller',     down_dir},
     {'GAMEPAD_DPAD_LEFT ',       'up_dir-controller',       up_dir},
     {'GAMEPAD_DPAD_DOWN',        'scroll_down-controller',  function() scroll(1, o.wrap) end,           {repeatable = true}},
     {'GAMEPAD_DPAD_UP',          'scroll_up-controller',    function() scroll(-1, o.wrap) end,          {repeatable = true}},
-    {'Shift+GAMEPAD_DPAD_RIGHT', 'page_down-controller',    function() scroll(o.num_entries) end,       {repeatable = true}},
-    {'Shift+GAMEPAD_DPAD_LEFT',  'page_up-controller',      function() scroll(-o.num_entries) end,      {repeatable = true}},
-    {'Shift+GAMEPAD_DPAD_DOWN',  'list_bottom-controller',  function() scroll(math.huge) end},
-    {'Shift+GAMEPAD_DPAD_UP',    'list_top-controller',     function() scroll(-math.huge) end},
-    {'Meta+GAMEPAD_DPAD_RIGHT',  'goto_current-controller', goto_current_dir},
-    {'Meta+GAMEPAD_DPAD_LEFT',   'goto_root-controller',    goto_root},
+    {'R1+GAMEPAD_DPAD_RIGHT', 'page_down-controller',    function() scroll(o.num_entries) end,       {repeatable = true}},
+    {'R1+GAMEPAD_DPAD_LEFT',  'page_up-controller',      function() scroll(-o.num_entries) end,      {repeatable = true}},
+    {'R1+GAMEPAD_DPAD_DOWN',  'list_bottom-controller',  function() scroll(math.huge) end},
+    {'R1+GAMEPAD_DPAD_UP',    'list_top-controller',     function() scroll(-math.huge) end},
+    {'R2+GAMEPAD_DPAD_RIGHT',  'goto_current-controller', goto_current_dir},
+    {'R2+GAMEPAD_DPAD_LEFT',   'goto_root-controller',    goto_root},
     --{'Ctrl+s',      'reload',       function() cache:clear(); update() end},
-    {'Shift+GAMEPAD_BACK',             'select_mode-controller',  toggle_select_mode},
+    {'R1+GAMEPAD_BACK',             'select_mode-controller',  toggle_select_mode},
     --{'Alt+GAMEPAD_BACK',         'select_item-controller',  toggle_selection},
-    {'Meta+GAMEPAD_BACK',        'select_all-controller',   select_all}
+    {'R2+GAMEPAD_BACK',        'select_all-controller',   select_all}
 }
 
 --a map of key-keybinds - only saves the latest keybind if multiple have the same key code
