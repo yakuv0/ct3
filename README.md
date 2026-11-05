@@ -1,5 +1,8 @@
 ![ct3 logo](https://www.ajl.mqr.link/mat/img/ajl_logo_x75.png)
 
+> [!NOTE]
+> CT3 was developed during the pandemic in 2020; processed material for [tayboun series](https://youtube.com/playlist?list=PLRU7Joj9CBwG6STwoDjNbwUTI8VJzV3zS&si=HX27VCpATdYhZ0fd)
+
 # ct3 (mpv-game controller)
 
 ## Definition
